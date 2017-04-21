@@ -2,106 +2,55 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>Auto-adjust</title>
-  <style>
-    body {
-      text-align: center;
-    }
-
-    #g1 {
-      width: 400px;
-      height: 320px;
-      display: inline-block;
-      margin: 1em;
-    }
-
-    p {
-      display: block;
-      width: 450px;
-      margin: 2em auto;
-      text-align: left;
-    }
-  </style>
-  <script src="./web_files/jquery.min.js"></script>
-  <script src="./web_files/raphael.2.1.0.min.js"></script>
-  <script src="./web_files/justgage.1.0.1.min.js"></script>
-  <link href="./web_files/examples.css" rel="stylesheet" type="text/css">
-  <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="./web_files/excanvas.min.js"></script><![endif]-->
-  <script language="javascript" type="text/javascript" src="./web_files/jquery.flot.min.js"></script>
-  <script>
-    var g1;
-    	var count = -1;
-    	var plot_data = [];
-    	var totalPoints = 100;
-    	var min = 4.8;
-    	var max = 5.1;
-    	var x_length = 40;
-    	
-    	$(function(){
-    		var plot = $.plot("#placeholder", [ plot_data ], {
-    			series: {
-    				shadowSize: 0	// Drawing is faster without shadows
-    			},
-    			yaxis: {
-    				min: min,
-    				max: max
-    			},
-    			xaxis: {
-    	            show: false,
-    	            min: 0,
-    	            max: x_length,
-    	            ticks: 10
-    			}
-    		});
-    		
-    		var g1 = new JustGage({
-    		  id: "g1", 
-    		  value: 0, 
-    		  min: min,
-    		  max: max,
-    		  title: "Arduino Voltage",
-    		  label: "VDC",
-    		  levelColorsGradient: true,
-    		  levelColors: ["FF0000","FF6103","FFFF00","00FF00","FFFF00","FF0000"],
-    		  shadowSize: 2,
-    		  shadowVerticalOffset: 12
-    		});
-    		
-    		setInterval(function() {
-    			if(!$('#on_check').attr('checked'))return;
-    			$.get('http://'+window.location.host+'/?getData',function(data){
-    				//console.log(data);
-    				//data = eval(data+(Math.floor(Math.random() * 10) - 10)); //ADD NOISE
-    				//console.log(data);
-    				data = data/1000;
-    				data = parseFloat(data.toFixed(3));
-    				
-    				g1.refresh(data);//GAGE
-    				
-    				if(count>x_length){
-    					for (var i = 1; i < plot_data.length; ++i) {
-    						plot_data[i][0] = plot_data[i][0]-1;
-    					}
-    					plot_data.shift();
-    					console.log(plot_data);
-    				}else{
-    					count++;	
-    				}
-    				plot_data.push([count,data]);//PLOTTER
-    				//if(plot_data.length>11)console.log(plot_data);
-    				plot.setData([plot_data]);
-    				plot.draw();
-    			});
-    		}, 500);
-    	});
-  </script>
+  <title>Gauge Test</title>
+  <script src="../gauge.min.js"></script>
 </head>
 
-<body> <label><input type="checkbox" id="on_check" checked="checked" value="on"> ON</label>
-  <div id="g1"></div>
-  <div class="demo-container">
-    <div id="placeholder" style="height:300px"></div>
-  </div>
+<body style="background:#222"> <button onclick="animateGauges()">Animate</button> <button onclick="stopGaugesAnimation()">Stop animation</button>
+  <hr> <canvas data-type="linear-gauge" data-width="160" data-height="600" data-border-radius="20" data-borders="0" data-bar-begin-circle="false" data-title="Temperature" data-units="°C" data-minor-ticks="10" data-value="99" data-min-value="10" data-max-value="30"
+    data-major-ticks="10, 20, 30" data-highlights="[
+            {&quot;from&quot;: 10, &quot;to&quot;:20, &quot;color&quot;: &quot;blue&quot;},
+            {&quot;from&quot;: 20, &quot;to&quot;: 30, &quot;color&quot;: &quot;red&quot;}
+        ]" data-tick-side="right" data-number-side="right" data-needle-side="right" data-animation-rule="bounce" data-animation-duration="750" data-bar-stroke-width="5" data-value-box-border-radius="0" data-value-text-shadow="false"></canvas>
+  <canvas
+    data-type="linear-gauge" data-width="160" data-height="600" data-border-radius="20" data-borders="0" data-bar-begin-circle="false" data-title="Temperature" data-units="°C" data-minor-ticks="10" data-value="99" data-min-value="-30" data-max-value="30"
+    data-major-ticks="-30, -20, -10, 0, 10, 20, 30" data-highlights="[
+            {&quot;from&quot;:-30, &quot;to&quot;:0, &quot;color&quot;: &quot;blue&quot;},
+            {&quot;from&quot;: 0, &quot;to&quot;: 30, &quot;color&quot;: &quot;red&quot;}
+        ]" data-tick-side="right" data-number-side="right" data-needle-side="right" data-animation-rule="bounce" data-animation-duration="750" data-bar-stroke-width="5" data-value-box-border-radius="0" data-value-text-shadow="false"></canvas> <br> <canvas data-type="linear-gauge" data-width="600" data-height="160" data-border-radius="0" data-borders="0" data-bar-begin-circle="false" data-title="Temperature" data-units="°C" data-value="25.5" data-bar-stroke-width="5" data-min-value="-30"
+      data-max-value="30" data-major-ticks="-30, -20, -10, 0, 10, 20, 30" data-highlights="[
+            {&quot;from&quot;:-30, &quot;to&quot;:0, &quot;color&quot;: &quot;blue&quot;},
+            {&quot;from&quot;: 0, &quot;to&quot;: 30, &quot;color&quot;: &quot;red&quot;}
+        ]"></canvas> <br> <canvas data-type="linear-gauge" data-width="600" data-height="160" data-border-radius="0" data-borders="0" data-bar-begin-circle="false" data-title="Temperature" data-units="°C" data-value="25.5" data-bar-stroke-width="5" data-min-value="10"
+      data-max-value="30" data-major-ticks="10, 20, 30" data-highlights="[
+            {&quot;from&quot;: 10, &quot;to&quot;:20, &quot;color&quot;: &quot;blue&quot;},
+            {&quot;from&quot;: 20, &quot;to&quot;: 30, &quot;color&quot;: &quot;red&quot;}
+        ]"></canvas>
+    <script>
+      if (!Array.prototype.forEach) {
+          Array.prototype.forEach = function(cb) {
+              var i = 0, s = this.length;
+              for (; i < s; i++) {
+                  cb && cb(this[i], i, this);
+              }
+          }
+      }
+      var timers = [];
+      function animateGauges() {
+          document.gauges.forEach(function(gauge) {
+              timers.push(setInterval(function() {
+                  gauge.value = Math.random() *
+                      (gauge.options.maxValue - gauge.options.minValue) +
+                      gauge.options.minValue;
+              }, gauge.animation.duration + 500));
+          });
+      }
+      function stopGaugesAnimation() {
+          timers.forEach(function(timer) {
+              clearInterval(timer);
+          });
+      }
+    </script>
 </body>
 
 </html>

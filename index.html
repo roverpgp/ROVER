@@ -40,29 +40,41 @@
       text-align: left;
     }
   </style>
-  <div id="g1"></div>
-  <p> JustGage auto-adjusts to the size of containing element. And to the screen zoom level. And screen density. Nice. This means you’ll get clean, sharp and nice looking gauge at all times. Try zooming the page to see the results. </p>
-  <script src="../raphael-2.1.4.min.js"></script>
-  <script src="../justgage.js"></script>
-  <script>
-    var g1;
-
-      window.onload = function(){
-        var g1 = new JustGage({
-          id: "g1",
-          value: getRandomInt(0, 100),
-          min: 0,
-          max: 100,
-          title: "Big Fella",
-          label: "pounds"
-        });
-
-
-        setInterval(function() {
-          g1.refresh(getRandomInt(50, 100));
-        }, 2500);
-      };
-  </script>
+  <div class="py-5  section">
+    <script src="raphael.2.1.0.min.js"></script>
+    <script src="justgage.1.0.1.min.js"></script>
+    <div id="gauge" class="200x160px"></div>
+    <script>
+      var g = new JustGage({
+        id: "gauge",
+        value: 67,
+        min: 0,
+        max: 100,
+        title: "Visitors"
+      });
+    </script>
+    <script src="../raphael-2.1.4.min.js"></script>
+    <script src="../justgage.js"></script>
+    <script>
+      var g1;
+  
+        window.onload = function(){
+          var g1 = new JustGage({
+            id: "g1",
+            value: getRandomInt(0, 100),
+            min: 0,
+            max: 100,
+            title: "Big Fella",
+            label: "pounds"
+          });
+  
+  
+          setInterval(function() {
+            g1.refresh(getRandomInt(50, 100));
+          }, 2500);
+        };
+    </script>
+  </div>
 </body>
 
 </html>

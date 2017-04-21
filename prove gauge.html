@@ -1,16 +1,120 @@
 <html>
 
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-alpha.6.css" rel="stylesheet" type="text/css">
-  </head>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-alpha.6.css" type="text/css"> </head>
 
-  <body>
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
-    <script src="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-alpha.6.min.js"></script>
-  </body>
-  
+<body>
+  <meta charset="utf-8">
+  <title>Custom Render Function</title>
+  <style>
+    .container {
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .gauge_container {
+      text-align: left;
+      height: 450px;
+      display: inline-block;
+      border: 1px solid #ccc;
+      margin: 40px 5px 0 5px;
+    }
+
+    .gauge {
+      width: 300px;
+      height: 200px;
+      display: inline-block;
+      -webkit-transform: translate3d(0, 0, 0);
+    }
+
+    .controls {
+      text-align: left;
+    }
+
+    li {
+      padding: 10px 0 0 0;
+    }
+
+    li.refresh {
+      border-top: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+      padding-top: 15px;
+      padding-bottom: 15px;
+    }
+
+    label {
+      font-family: Arial;
+      display: inline-block;
+      width: 65px;
+      margin: 0 0 5px 0;
+      text-align: right;
+      padding: 5px;
+      color: #919191;
+    }
+
+    input {
+      font-weight: bold;
+      font-size: 13px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      margin: 5px;
+    }
+
+    input[disabled=disabled] {
+      font-weight: normal;
+      font-size: 11px;
+      padding: 0 0 0 10px;
+      margin: 0px;
+      color: #777777;
+      border-color: transparent;
+      background: #fff;
+    }
+
+    a:link.button,
+    a:active.button,
+    a:visited.button,
+    a:hover.button {
+      margin: 0px 5px 0 2px;
+      padding: 7px 13px;
+    }
+  </style>
+  <div id="gg1" style="width: 200px; height: 150px;"></div> <a href="#" id="gg1_refresh" class="button grey">Random Refresh</a>
+  <script src="../raphael-2.1.4.min.js"></script>
+  <script src="../justgage.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+        var gg1 = new JustGage({
+            id: "gg1",
+            value: 50,
+            min: 0,
+            max: 100,
+            title: "Target",
+            label: "temperature",
+            textRenderer: customValue
+        });
+
+        document.getElementById('gg1_refresh').addEventListener('click', function() {
+            gg1.refresh(getRandomInt(0, 100));
+            return false;
+        });
+
+        function customValue(val) {
+            if (val < 50) {
+                return 'low';
+            } else if (val > 50) {
+                return 'high';
+            } else if (val === 50) {
+                return 'ideal';
+            }
+        }
+    });
+  </script>
+  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+  <script src="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-alpha.6.min.js"></script>
+</body>
+
 </html>
